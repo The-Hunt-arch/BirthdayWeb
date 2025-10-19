@@ -9,7 +9,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import './MusicPlayer.css';
 
 // Using a demo audio URL for now. Replace with local file in public/ folder
-const AUDIO_SRC = 'src/assets/music/birthday.mp3';
+const AUDIO_SRC = '/music/birthday.mp3';
 
 export default function MusicPlayer() {
   const { isPlaying, progress, duration, toggle, seekTo, play } = useAudioPlayer(AUDIO_SRC, { loop: true, autoplay: true });
