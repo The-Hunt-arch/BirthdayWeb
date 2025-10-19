@@ -1,0 +1,136 @@
+/* Birthday Hero Section Styles */
+.hero-root {
+	position: relative;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	padding: 0 2rem;
+}
+
+.hero-inner {
+	position: relative;
+	z-index: 2;
+	max-width: 1100px;
+	text-align: center;
+}
+
+.hero-title {
+	font-size: clamp(2.8rem, 8vw, 5.2rem);
+	font-weight: 800;
+	line-height: 1.05;
+}
+
+.gradient-text { /* legacy (kept for other uses) */
+	background: linear-gradient(90deg,#ff4d8d,#ffb86c,#7f4dff);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: hueRotate 8s linear infinite;
+}
+
+/* New enhanced heading gradient */
+.hero-glow,
+.hero-glow.accent { /* unified colorful text without extra background block */
+	background: linear-gradient(100deg,#ff2f7d 0%,#ff8fb1 14%,#ffb347 28%,#ffd166 42%,#8a5bff 58%,#4dd4ff 72%,#ff2f7d 100%);
+	background-size: 320% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+	animation: gradientFlow 11s linear infinite;
+	position: relative;
+	display: inline-block;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.7), 0 2px 4px rgba(0,0,0,0.18);
+}
+
+.hero-underline {
+	width: clamp(240px,50%,600px);
+	height: 10px;
+	border-radius: 999px;
+	margin: .35rem auto 1.6rem;
+	background: linear-gradient(90deg,#ff4d8d,#ffb86c,#ffd166,#7f4dff,#4dd4ff,#ff4d8d);
+	background-size: 300% 100%;
+	animation: gradientFlow 7s linear infinite;
+	position: relative;
+	box-shadow: 0 2px 6px -2px rgba(0,0,0,0.25),0 0 8px rgba(255,255,255,0.6) inset;
+}
+
+.hero-underline::after {
+	content:"";
+	position:absolute;
+	inset:0;
+	background: radial-gradient(circle at 15% 50%,rgba(255,255,255,0.9),transparent 55%),
+	            radial-gradient(circle at 80% 45%,rgba(255,255,255,0.85),transparent 60%);
+	mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+	-webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+	padding:2px;
+	opacity:.9;
+	mix-blend-mode: screen;
+	border-radius: inherit;
+}
+
+.hero-emoji {
+	filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+}
+
+@keyframes gradientFlow {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+.hero-sub {
+	font-weight: 600;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	opacity: .85;
+}
+
+.hero-tagline {
+	opacity: .9;
+	font-weight: 500;
+	margin-bottom: 2rem;
+}
+
+.hero-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	margin-top: 1rem;
+}
+
+.hero-gradient-bg {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(circle at 30% 30%, rgba(255,77,141,0.55), transparent 60%),
+							radial-gradient(circle at 70% 60%, rgba(127,77,255,0.55), transparent 65%),
+							linear-gradient(135deg,#ffe0ef 0%, #f3e9ff 50%, #fff7fb 100%);
+	animation: pulse 10s ease-in-out infinite;
+	z-index: 1;
+}
+
+.floating-emoji {
+	position: absolute;
+	font-size: 2.4rem;
+	top: 15%;
+	right: 12%;
+	filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+}
+
+.floating-emoji.second {
+	top: auto;
+	bottom: 18%;
+	left: 14%;
+}
+
+@keyframes pulse {
+	0%,100% { filter: saturate(1); }
+	50% { filter: saturate(1.35); }
+}
+
+@keyframes hueRotate {
+	0% { filter: hue-rotate(0deg); }
+	100% { filter: hue-rotate(360deg); }
+}

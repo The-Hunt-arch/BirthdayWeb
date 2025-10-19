@@ -1,0 +1,14 @@
+.particle-bg {
+	position: fixed;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.particle {
+	position: absolute;
+	background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.2));
+	border-radius: 50%;
+	filter: blur(1px);
+}

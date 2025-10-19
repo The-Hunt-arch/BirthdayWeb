@@ -1,0 +1,41 @@
+.music-floating {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  z-index: 30;
+}
+.music-box {
+  padding: .85rem 1.1rem 1.1rem;
+  width: 240px;
+  border-radius: 22px !important;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+}
+.music-row {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.music-meta {
+  display: flex;
+  flex-direction: column;
+}
+.music-progress {
+  margin-top: .5rem;
+  height: 6px !important;
+  border-radius: 4px;
+}
+.music-bar {
+  margin-top: .4rem;
+  height: 6px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.music-bar-active {
+  position: absolute;
+  inset: 0 0 0 0;
+  background: linear-gradient(90deg,#ff4d8d,#ffb86c,#7f4dff);
+}
