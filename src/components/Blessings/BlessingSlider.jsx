@@ -64,9 +64,9 @@ export default function BlessingSlider() {
   };
 
   return (
-    <Box component="section" sx={{ position: 'relative', width: '100%', py: 8, overflow: 'hidden' }}>
-      <Box component="h2" sx={{ textAlign: 'center', fontSize: { xs: '2rem', md: '3rem' }, mb: 5, fontWeight: 700, background: 'linear-gradient(90deg,#ff4d8d,#7f4dff)', WebkitBackgroundClip: 'text', color: 'transparent' }}>Blessings</Box>
-      <Box sx={{ position: 'relative', maxWidth: 1000, mx: 'auto' }} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+  <Box component="section" sx={{ position: 'relative', width: '100%', py: { xs: 5, md: 8 }, overflow: 'hidden' }}>
+  <Box component="h2" sx={{ textAlign: 'center', fontSize: { xs: '1.9rem', md: '3rem' }, mb: { xs: 3.5, md: 5 }, fontWeight: 700, background: 'linear-gradient(90deg,#ff4d8d,#7f4dff)', WebkitBackgroundClip: 'text', color: 'transparent' }}>Blessings</Box>
+  <Box sx={{ position: 'relative', maxWidth: { xs: '100%', md: 1000 }, mx: 'auto', px: { xs: 1.5, md: 0 } }} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
         <AnimatePresence mode="wait" initial={false} custom={direction}>
           <motion.div
             key={index}
@@ -82,14 +82,14 @@ export default function BlessingSlider() {
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
             onTransitionEnd={onDragTransitionEnd}
-            style={{ position: 'relative', borderRadius: 28, minHeight: 420, boxShadow: '0 18px 40px -18px rgba(127,77,255,0.35)', background: '#000', overflow: 'hidden', cursor: 'grab', touchAction: 'pan-y' }}
+            style={{ position: 'relative', borderRadius: 24, minHeight: window.innerWidth < 480 ? 360 : 420, boxShadow: '0 14px 32px -12px rgba(127,77,255,0.35)', background: '#000', overflow: 'hidden', cursor: 'grab', touchAction: 'pan-y' }}
           >
-            <motion.img src={SLIDES[index].photo} alt={SLIDES[index].caption} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.65)' }} />
+            <motion.img src={SLIDES[index].photo} alt={SLIDES[index].caption} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.7)' }} />
             <motion.div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.75) 100%)' }} />
             <motion.div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2.2rem 2.4rem', color: 'white' }}
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-              <h3 style={{ margin: '0 0 .6rem', fontSize: '1.6rem', fontWeight: 600 }}>{SLIDES[index].caption}</h3>
-              <p style={{ margin: 0, fontSize: '1.1rem', lineHeight: 1.5 }}>{SLIDES[index].wish}</p>
+              <h3 style={{ margin: '0 0 .55rem', fontSize: window.innerWidth < 480 ? '1.35rem' : '1.6rem', fontWeight: 600 }}>{SLIDES[index].caption}</h3>
+              <p style={{ margin: 0, fontSize: window.innerWidth < 480 ? '0.95rem' : '1.1rem', lineHeight: 1.5 }}>{SLIDES[index].wish}</p>
             </motion.div>
             <Box sx={{ position: 'absolute', top: 14, right: 18, display: 'flex', gap: 1 }}>
               {SLIDES.map((_, i) => (

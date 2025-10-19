@@ -47,23 +47,27 @@ export default function MusicPlayer() {
   };
   const pct = duration ? (progress / duration) * 100 : 0;
   return (
-    <motion.div className="music-floating" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
-      <Paper elevation={3} className="music-box">
-        <div className="music-row">
-          <IconButton color="primary" onClick={handleToggle} size="large">
+    <motion.div className="music-floating" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
+      <Paper elevation={6} className="music-box">
+        <div className="music-row" style={{ justifyContent: 'space-between' }}>
+          <IconButton color="primary" onClick={handleToggle} size="large" aria-label={isPlaying ? 'Pause music' : 'Play music'}>
             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
           <div className="music-meta">
-            <strong>Prachi's Vibe Track</strong>
-            <small style={{ opacity: 0.7 }}>Looping ambient birthday tune</small>
+            <strong style={{ fontSize: '.9rem' }}>Prachi's Vibe Track</strong>
+            <small style={{ opacity: 0.7 }}>Birthday loop</small>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem', fontSize: '.65rem', opacity: .65 }}>
+            <span>{Math.floor(progress/60)}:{('0'+Math.floor(progress%60)).slice(-2)}</span>
+            <span>/</span>
+            <span>{Math.floor(duration/60)}:{('0'+Math.floor(duration%60)).slice(-2)}</span>
           </div>
         </div>
         {autoPlayFailed && !isPlaying && (
-          <div style={{ fontSize: '.75rem', marginTop: 4, opacity: .7 }}>
-            Tap play to enable sound (browser blocked autoplay)
+          <div style={{ fontSize: '.7rem', marginTop: 4, opacity: .7 }}>
+            Tap play (autoplay blocked)
           </div>
         )}
-        <LinearProgress variant="determinate" value={pct} className="music-progress" />
         <div className="music-bar" onClick={e => {
           const rect = e.currentTarget.getBoundingClientRect();
           const x = e.clientX - rect.left;

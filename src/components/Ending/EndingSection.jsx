@@ -1,32 +1,103 @@
 import { useEffect, useRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { Fireworks } from 'fireworks-js';
+import confetti from 'canvas-confetti';
 import { motion } from 'framer-motion';
 
 const EndingSection = () => {
   const containerRef = useRef(null);
   const fwRef = useRef(null);
+  const rocketFallbackRef = useRef(null);
 
   useEffect(() => {
-    if (containerRef.current) {
+    const prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (containerRef.current && !prefersReduce) {
       fwRef.current = new Fireworks(containerRef.current, {
-        speed: 2,
-        gravity: 1.1,
-        particles: 50,
-        explosion: 6,
+        speed: window.innerWidth < 480 ? 1.1 : 1.5,
+        gravity: 1.06,
+        particles: window.innerWidth < 480 ? 22 : 40,
+        explosion: window.innerWidth < 480 ? 4.2 : 5.2,
         autoresize: true
       });
       fwRef.current.start();
+      const styleCanvas = () => {
+        const canvas = containerRef.current.querySelector('canvas');
+        if (canvas) {
+          canvas.style.position = 'absolute';
+          canvas.style.inset = '0';
+          canvas.style.zIndex = '1';
+          canvas.style.mixBlendMode = 'screen';
+          canvas.style.pointerEvents = 'none';
+          canvas.style.background = 'transparent';
+        }
+      };
+      styleCanvas();
+      setTimeout(styleCanvas, 320);
+      const verifyCanvas = (attempt) => {
+        const canvas = containerRef.current.querySelector('canvas');
+        if (!canvas || canvas.width === 0 || canvas.height === 0) {
+          if (fwRef.current) {
+            fwRef.current.stop();
+            fwRef.current.start();
+            styleCanvas();
+          }
+        }
+        if (attempt === 3) {
+          const finalCanvas = containerRef.current.querySelector('canvas');
+          if (!finalCanvas) {
+            startRocketFallback();
+          }
+        }
+      };
+      [900, 1700, 3000].forEach((ms, idx) => setTimeout(() => verifyCanvas(idx + 1), ms));
+    } else if (!prefersReduce) {
+      startRocketFallback();
     }
     return () => {
       if (fwRef.current) fwRef.current.stop();
+      if (rocketFallbackRef.current) clearInterval(rocketFallbackRef.current);
     };
   }, []);
+
+  const startRocketFallback = () => {
+    if (rocketFallbackRef.current) return;
+    rocketFallbackRef.current = setInterval(() => {
+      const prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduce) return;
+      const xBase = 0.2 + Math.random() * 0.6; // wider spread bottom
+      confetti({
+        particleCount: 16,
+        angle: 85,
+        startVelocity: 60,
+        spread: 35,
+        origin: { x: xBase, y: 0.92 },
+        ticks: 150,
+        gravity: 0.95,
+        scalar: 0.9,
+        colors: ['#ff4d8d','#ffd166','#7f4dff','#4dd4ff','#ffffff']
+      });
+    }, 1900);
+  };
 
   const triggerBurst = () => {
     if (fwRef.current) {
       fwRef.current.stop();
       fwRef.current.start();
+    } else {
+      // Manual burst in fallback mode
+      for (let i=0;i<3;i++) {
+        setTimeout(() => {
+          confetti({
+            particleCount: 38,
+            spread: 70,
+            startVelocity: 55,
+            origin: { x: 0.5, y: 0.85 },
+            ticks: 120,
+            gravity: 0.95,
+            colors: ['#ff4d8d','#ffd166','#7f4dff','#4dd4ff','#ffffff']
+          });
+        }, i*180);
+      }
     }
   };
 

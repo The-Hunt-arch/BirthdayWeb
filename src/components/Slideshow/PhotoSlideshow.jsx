@@ -50,14 +50,14 @@ const PhotoSlideshow = () => {
     <Box component="section" sx={{
       position: 'relative',
       width: '100%',
-      minHeight: { xs: 360, md: 480 },
+      minHeight: { xs: 300, sm: 340, md: 480 },
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
-      mt: 6,
-      mb: 4,
-      px: { xs: 2, md: 4 }
+      mt: { xs: 4, md: 6 },
+      mb: { xs: 3, md: 4 },
+      px: { xs: 1.5, md: 4 }
     }}>
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
@@ -84,9 +84,9 @@ const PhotoSlideshow = () => {
         >
           <Paper elevation={10} sx={{
             position: 'relative',
-            width: { xs: '90%', md: '60%' },
-            height: { xs: 320, md: 420 },
-            borderRadius: 4,
+            width: { xs: '94%', sm: '88%', md: '60%' },
+            height: { xs: 260, sm: 300, md: 420 },
+            borderRadius: { xs: 3, md: 4 },
             overflow: 'hidden',
             background: `linear-gradient(135deg, ${theme.palette.primary.main}20, ${theme.palette.secondary.main}20)`,
             backdropFilter: 'blur(4px)',
@@ -106,10 +106,11 @@ const PhotoSlideshow = () => {
               position: 'absolute',
               bottom: 16,
               left: 20,
-              pr: 3,
+              pr: { xs: 2, md: 3 },
               color: '#fff',
               textShadow: '0 2px 10px rgba(0,0,0,0.45)',
-              fontWeight: 600
+              fontWeight: 600,
+              fontSize: { xs: '1.15rem', md: '1.35rem' }
             }}>
               {current.caption} {current.mood === 'happy' && '🥳'}{current.mood === 'sweet' && '🍰'}{current.mood === 'decor' && '🎈'}{current.mood === 'soft' && '🌸'}
             </Typography>

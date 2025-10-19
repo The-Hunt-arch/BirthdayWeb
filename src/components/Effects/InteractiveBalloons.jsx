@@ -10,8 +10,11 @@ import confetti from 'canvas-confetti';
 //  - Auto re-spawn to keep ambience
 
 const COLORS = ['#ff4d8d', '#ff8fb1', '#ffc658', '#7f4dff', '#4dd4ff', '#ff6b6b'];
-const BALLOON_COUNT_DESKTOP = 18;
-const BALLOON_COUNT_MOBILE = 10;
+// Reduced density for performance / visual calm
+const BALLOON_COUNT_DESKTOP = 10; // was 18
+const BALLOON_COUNT_MOBILE = 6;   // was 10
+// Optional ultra-low density for very narrow devices
+const BALLOON_COUNT_NARROW = 4;   // <360px width
 
 const makeBalloon = (id) => ({
   id,
@@ -29,8 +32,10 @@ const InteractiveBalloons = () => {
   const idRef = useRef(0);
 
   useEffect(() => {
-    const mobile = window.innerWidth < 640;
-    const count = mobile ? BALLOON_COUNT_MOBILE : BALLOON_COUNT_DESKTOP;
+    const w = window.innerWidth;
+    const mobile = w < 640;
+    const narrow = w < 360;
+    const count = narrow ? BALLOON_COUNT_NARROW : (mobile ? BALLOON_COUNT_MOBILE : BALLOON_COUNT_DESKTOP);
     const initial = Array.from({ length: count }).map(() => makeBalloon(idRef.current++));
     setBalloons(initial);
   }, []);
@@ -59,11 +64,24 @@ const InteractiveBalloons = () => {
       { id: 'p' + b.id, xPx: centerX, yPx: centerY, created: Date.now() }
     ]);
 
-    // Remove balloon & respawn new one after short delay
-    setBalloons(prev => prev.filter(x => x.id !== b.id));
-    setTimeout(() => {
-      setBalloons(prev => [...prev, makeBalloon(idRef.current++)]);
-    }, 1200);
+    // Remove balloon & respawn only if below density target (avoid perpetual high spawn)
+    setBalloons(prev => {
+      const filtered = prev.filter(x => x.id !== b.id);
+      // Determine current target based on width (dynamic on each pop)
+      const w = window.innerWidth;
+      const mobile = w < 640;
+      const narrow = w < 360;
+      const target = narrow ? BALLOON_COUNT_NARROW : (mobile ? BALLOON_COUNT_MOBILE : BALLOON_COUNT_DESKTOP);
+      if (filtered.length < target) {
+        setTimeout(() => {
+          setBalloons(curr => {
+            if (curr.length >= target) return curr; // re-check before spawn
+            return [...curr, makeBalloon(idRef.current++)];
+          });
+        }, 1400); // slightly longer pause for calmer feel
+      }
+      return filtered;
+    });
   }, []);
 
   // Cleanup old pops
@@ -88,7 +106,7 @@ const InteractiveBalloons = () => {
               rotate: [0, 6, -6, 4],
             }}
             transition={{
-              duration: b.duration,
+              duration: b.duration * 1.25, // slower rise for fewer balloons
               ease: 'linear',
               repeat: Infinity,
               delay: b.delay
